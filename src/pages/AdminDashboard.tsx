@@ -32,6 +32,23 @@ interface Product {
   is_active: boolean;
   created_at: string;
 }
+interface Order {
+  id: string;
+  user_id: string;
+  product_id: string;
+  quantity: number;
+  status: string;
+  created_at: string;
+  shipping_address: string;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  total_amount: number;
+  payment_mode: string;
+  payment_id?: string;
+  product_details: any; // Adjust type as needed
+}
+
 
 interface NewProduct {
   name: string;
@@ -67,6 +84,83 @@ const AdminDashboard = () => {
 
     fetchProducts();
   }, [navigate]);
+
+// Orders state and fetch function
+
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
+
+  const fetchOrders = async () => {
+    try {
+      setLoadingOrders(true);
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+        if (error) throw error;
+          setOrders(
+            (data || []).map((order: any) => ({
+              ...order,
+              product_id: order.product_id ?? "",
+              quantity: order.quantity ?? 0,
+              customer_name: order.customer_name ?? "",
+              customer_email: order.customer_email ?? "",
+            }))
+          );
+        } catch (error) {
+        console.error("Error fetching orders:", error);
+        toast({
+        title: "Error",
+        description: "Failed to fetch orders",
+        variant: "destructive",
+       });
+    } finally {
+    setLoadingOrders(false);
+  }
+};
+const updateOrderStatus = async (
+  orderId: string,
+  newStatus: "pending" | "processing" | "shipped" | "delivered" | "cancelled"
+) => {
+  try {
+    const { error } = await supabase
+      .from("orders")
+      .update({ status: newStatus })
+      .eq("id", orderId)
+      .select();
+
+    if (error) throw error;
+
+    // Update state immediately without refetch
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
+
+    toast({
+      title: "Order Updated",
+      description: `Order #${orderId} marked as ${newStatus}`,
+    });
+  } catch (error) {
+    console.error("Error updating order:", error);
+    toast({
+      title: "Error",
+      description: "Failed to update order status",
+      variant: "destructive",
+    });
+  }
+};
+
+useEffect(() => {
+  if (activeTab === "orders") {
+    fetchOrders();
+  }
+}, [activeTab]);
+
+//--------------------
+// Fetch products from Supabase
 
   const fetchProducts = async () => {
     try {
@@ -216,10 +310,11 @@ const AdminDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="products">Manage Products</TabsTrigger>
             <TabsTrigger value="add-product">Add Product</TabsTrigger>
+            <TabsTrigger value="orders">Orders</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="mt-6">
@@ -291,13 +386,13 @@ const AdminDashboard = () => {
                     <div key={product.id} className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <img
-                          src={product.image_url}
+                          src={product.image_url.split(',')[0].trim()}
                           alt={product.name}
                           className="w-10 h-10 rounded-lg object-cover"
                         />
                         <div>
                           <p className="font-medium">{product.name}</p>
-                          <p className="text-sm text-muted-foreground">₹{product.price}</p>
+                          <p className="text-sm text-muted-foreground">₹{product.price*0.8}</p>
                         </div>
                       </div>
                       <Badge variant={product.is_active ? "default" : "secondary"}>
@@ -321,7 +416,7 @@ const AdminDashboard = () => {
                     <Card key={product.id} className="farm-hover">
                       <CardContent className="p-4">
                         <img
-                          src={product.image_url}
+                          src={product.image_url.split(',')[0].trim()}
                           alt={product.name}
                           className="w-full h-40 object-cover rounded-lg mb-4"
                         />
@@ -330,7 +425,7 @@ const AdminDashboard = () => {
                           {product.description}
                         </p>
                         <div className="flex items-center justify-between mb-4">
-                          <span className="font-bold text-primary">₹{product.price}</span>
+                          <span className="font-bold text-primary">₹{product.price*0.8}</span>
                           <Badge variant={product.is_active ? "default" : "secondary"}>
                             {product.is_active ? "Active" : "Inactive"}
                           </Badge>
@@ -455,6 +550,97 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
           </TabsContent>
+          <TabsContent value="orders" className="mt-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>All Orders</CardTitle>
+    </CardHeader>
+    <CardContent>
+      {loadingOrders ? (
+        <p>Loading orders...</p>
+      ) : orders.length === 0 ? (
+        <p>No orders found.</p>
+      ) : (
+        <table className="w-full border-collapse border border-gray-300">
+          <thead>
+  <tr className="bg-gray-100">
+    <th className="border px-4 py-2">Order ID</th>
+    <th className="border px-4 py-2">Customer Name</th>
+    <th className="border px-4 py-2">Email</th>
+    <th className="border px-4 py-2">Phone</th>
+    <th className="border px-4 py-2">Shipping Address</th>
+    <th className="border px-4 py-2">Products</th>
+    <th className="border px-4 py-2">Total Qty</th>
+    <th className="border px-4 py-2">Total Amount</th>
+    <th className="border px-4 py-2">Payment Mode</th>
+    <th className="border px-4 py-2">Status</th>
+    <th className="border px-4 py-2">Date</th>
+  </tr>
+</thead>
+
+<tbody>
+  {orders.map((order) => (
+    <tr key={order.id}>
+      <td className="border px-4 py-2">{order.id}</td>
+      <td className="border px-4 py-2">{order.customer_name}</td>
+      <td className="border px-4 py-2">{order.customer_email}</td>
+      <td className="border px-4 py-2">{order.customer_phone}</td>
+      <td className="border px-4 py-2">{order.shipping_address}</td>
+
+      {/* Render product details JSON */}
+      <td className="border px-4 py-2">
+        {Array.isArray(order.product_details) ? (
+          <ul className="list-disc pl-4">
+            {order.product_details.map((product, index) => (
+              <li key={index}>
+                {product.name} (x{product.quantity}) – ₹{(product.price*0.8).toFixed(2)}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          "—"
+        )}
+      </td>
+
+      {/* Show total quantity */}
+      <td className="border px-4 py-2">{order.quantity}</td>
+
+      {/* Show total amount */}
+      <td className="border px-4 py-2">₹{order.total_amount}</td>
+
+      {/* Payment mode */}
+      <td className="border px-4 py-2">{order.payment_mode}</td>
+
+      {/* Status dropdown */}
+      <td className="border px-4 py-2">
+        <select
+          value={order.status}
+          onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+          className="border rounded px-2 py-1"
+        >
+          <option value="pending">Pending</option>
+          <option value="processing">Processing</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </td>
+
+      {/* Order date */}
+      <td className="border px-4 py-2">
+        {new Date(order.created_at).toLocaleString()}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
+
+        </table>
+      )}
+    </CardContent>
+  </Card>
+</TabsContent>
+
         </Tabs>
       </div>
     </div>

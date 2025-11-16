@@ -9,6 +9,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/hooks/useCart";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
+
 
 interface Product {
   id: string;
@@ -96,16 +98,17 @@ const Products = () => {
   }
 
   return (
+    
     <div className="min-h-screen bg-background">
       {/* Header */}
       <section className="bg-gradient-to-r from-primary/10 to-accent/10 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-foreground mb-4">
-              Premium Cold-Pressed Mustard Oil Products
+              Best Quality Products
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover our range of pure, unrefined mustard oils extracted using traditional cold-press methods. 
+              Discover our range of pure, unrefined oils extracted using traditional cold-press methods. 
               Rich in nutrients and authentic taste.
             </p>
           </div>
@@ -157,12 +160,13 @@ const Products = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {sortedProducts.map((product) => (
                 <Card key={product.id} className="group hover:shadow-lg transition-shadow border-0 shadow-card">
+                <Link to={`/products/${product.id}`}>  
                   <CardContent className="p-0">
                     <div className="aspect-square overflow-hidden rounded-t-lg">
                       <img
-                        src={product.image_url}
+                        src={product.image_url.split(',')[0].trim()}
                         alt={`${product.name} - Best Quality Cold Press Mustard Oil`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <div className="p-4">
@@ -180,8 +184,16 @@ const Products = () => {
                       
                       <div className="flex items-center justify-between mb-3">
                         <div className="text-lg font-bold text-foreground">
+                          ₹{(product.price*0.8).toFixed(2)}
+                          <div className="text-sm text-muted-foreground line-through">
                           ₹{product.price.toFixed(2)}
                         </div>
+                        <span className="text-xs font-semibold text-green-600">
+                          20% OFF
+                        </span>
+                        </div>
+                      
+                        
                         {product.stock_quantity > 0 ? (
                           <Badge variant="secondary" className="text-xs">
                             In Stock
@@ -193,7 +205,9 @@ const Products = () => {
                         )}
                       </div>
                     </div>
-                  </CardContent>
+                  
+                    </CardContent>
+                  </Link>
                   
                   <CardFooter className="p-4 pt-0">
                     <Button 
@@ -217,10 +231,10 @@ const Products = () => {
       <section className="py-12 bg-muted/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold text-foreground mb-4">
-            Why Choose Our Cold-Pressed Mustard Oil?
+            Why Choose Our Cold-Pressed Oil?
           </h2>
           <p className="text-muted-foreground mb-6">
-            Our premium cold-pressed mustard oils are extracted using traditional methods that preserve natural nutrients, 
+            Our cold-pressed oils are extracted using traditional methods that preserve natural nutrients, 
             flavor, and health benefits. Each bottle contains pure, unrefined oil rich in omega-3 fatty acids, 
             vitamin E, and natural antioxidants.
           </p>
@@ -241,6 +255,7 @@ const Products = () => {
         </div>
       </section>
     </div>
+
   );
 };
 

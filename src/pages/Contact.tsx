@@ -21,7 +21,7 @@ const Contact = () => {
     // Simulate form submission
     toast({
       title: "Message Sent!",
-      description: "Thank you for contacting us. We'll get back to you within 24 hours.",
+      description: "Thank you for contacting us. We'll get back to you within 24 hours. but to make sure also mail us at care@myfarmik.com for instant response, please.",
     });
     
     // Reset form
@@ -48,10 +48,10 @@ const Contact = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-foreground mb-6">
-              Contact Farmik Oils
+              Contact Farmik
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Have questions about our premium cold-pressed mustard oil? We're here to help! 
+              Have questions about our cold-pressed oils? We're here to help! 
               Get in touch with our team for product information, orders, or any other inquiries.
             </p>
           </div>
@@ -74,7 +74,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground mb-1">Phone</h3>
-                        <p className="text-muted-foreground">+91 98765 43210</p>
+                        <a href="tel:+91 8287317599"><p className="text-muted-foreground">+91 8287317599</p></a>
                         <p className="text-sm text-muted-foreground">Mon-Sat 9:00 AM - 7:00 PM</p>
                       </div>
                     </div>
@@ -89,8 +89,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                        <p className="text-muted-foreground">info@farmikoils.com</p>
-                        <p className="text-muted-foreground">support@farmikoils.com</p>
+                        <a href="mailto:care@myfarmik.com?subject=Inquiry&body=Hello, I would like to know more about..."><p className="text-muted-foreground">care@myfarmik.com</p></a>
                       </div>
                     </div>
                   </CardContent>
@@ -104,11 +103,13 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground mb-1">Address</h3>
-                        <p className="text-muted-foreground">
-                          123 Traditional Oil Mill<br />
-                          Mustard Fields, Punjab 140001<br />
+                        <a href="https://maps.app.goo.gl/UYKrGrcS3bpxVvqF8" target="_blank"><p className="text-muted-foreground">
+                          VEBRU <br />
+                          B-4 sector-60<br />
+                        Noida, uttar pradesh - 201301<br />
                           India
                         </p>
+                        </a>
                       </div>
                     </div>
                   </CardContent>
@@ -125,7 +126,7 @@ const Contact = () => {
                         <div className="text-muted-foreground text-sm space-y-1">
                           <p>Monday - Friday: 9:00 AM - 7:00 PM</p>
                           <p>Saturday: 10:00 AM - 5:00 PM</p>
-                          <p>Sunday: Closed</p>
+                        
                         </div>
                       </div>
                     </div>
@@ -246,7 +247,7 @@ const Contact = () => {
               Frequently Asked Questions
             </h2>
             <p className="text-lg text-muted-foreground">
-              Quick answers to common questions about our premium cold-pressed mustard oil.
+              Quick answers to common questions about our cold-pressed oils.
             </p>
           </div>
 
@@ -262,7 +263,7 @@ const Contact = () => {
               },
               {
                 question: "Is your oil 100% pure?",
-                answer: "Yes, our mustard oil is 100% pure with no additives, chemicals, or artificial processing. Each batch is tested for purity."
+                answer: "Yes, our  oil is 99.9% pure with no additives, chemicals, or artificial processing. Each batch is tested for purity."
               },
               {
                 question: "What are the health benefits?",

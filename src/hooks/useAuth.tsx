@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           user_id: user.id,
           email: user.email!,
           full_name: user.user_metadata?.full_name || '',
+          phone: user.user_metadata?.phone || '',
         });
       
       if (error) {

@@ -24,7 +24,7 @@ const AdminLogin = () => {
     try {
       // For now, use hardcoded credentials
       // In production, this would authenticate against a secure admin system
-      if (credentials.username === "admin" && credentials.password === "farmik123") {
+      if (credentials.username === "admin" && credentials.password === "farmikDB2025") {
         // Store admin session in localStorage
         localStorage.setItem("adminSession", JSON.stringify({
           isAdmin: true,
@@ -132,13 +132,13 @@ const AdminLogin = () => {
               </Button>
             </form>
 
-            <div className="mt-8 p-4 bg-muted/50 rounded-lg">
+            {/* <div className="mt-8 p-4 bg-muted/50 rounded-lg">
               <p className="text-xs text-muted-foreground text-center">
                 <strong>Demo Credentials:</strong><br />
                 Username: admin<br />
                 Password: farmik123
               </p>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
       </div>

@@ -1,9 +1,22 @@
 import { Heart, Leaf, Award, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import farmikLogo from "@/assets/farmik-oils-logo.png";
-import mustardOilProduct from "@/assets/mustard-oil-product.jpg";
+import logo from "@/assets/logo.jpeg";
+import mustardOilProduct from "@/assets/farmik oils.jpeg";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const About = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
+        navigate("/admin/login");
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [navigate]);
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -11,11 +24,11 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-foreground mb-6">
-              About Farmik Oils
+              About Farmik
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Preserving tradition, delivering purity. Our story is rooted in generations of cold-press expertise 
-              and a commitment to bringing you the finest mustard oil using authentic methods.
+              and a commitment to bringing you the finest oil using authentic methods.
             </p>
           </div>
         </div>
@@ -29,9 +42,9 @@ const About = () => {
               <h2 className="text-3xl font-bold text-foreground mb-6">Our Story</h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Founded with a vision to preserve traditional oil extraction methods, Farmik Oils began as a 
-                  small family operation in the heart of Punjab's mustard fields. Our founders recognized that 
-                  modern processing was stripping away the natural goodness that made mustard oil a cornerstone 
+                  Founded with a vision to preserve traditional oil extraction methods, Farmik began as a 
+                  small family operation in the heart of UP fields. Our founders recognized that 
+                  modern processing was stripping away the natural goodness that made oil a cornerstone 
                   of healthy Indian cooking.
                 </p>
                 <p>
@@ -40,17 +53,17 @@ const About = () => {
                   every drop of oil retains its natural nutrients, authentic flavor, and health benefits.
                 </p>
                 <p>
-                  At Farmik Oils, we believe that the best products come from respecting both nature and tradition. 
-                  That's why we source only the finest mustard seeds and extract oil at temperatures that preserve 
-                  its natural properties, delivering you the purest, most nutritious mustard oil possible.
+                  At Farmik, we believe that the best products come from respecting both nature and tradition. 
+                  That's why we source only the finest seeds and extract oil at temperatures that preserve 
+                  its natural properties, delivering you the purest, most nutritious oil possible.
                 </p>
               </div>
             </div>
             <div className="relative">
               <div className="bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl p-8">
                 <img 
-                  src={farmikLogo} 
-                  alt="Farmik Oils Traditional Methods"
+                  src={logo} 
+                  alt="Farmik Traditional Methods"
                   className="w-full h-auto max-w-md mx-auto"
                 />
               </div>
@@ -88,7 +101,7 @@ const About = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground">Seed Selection</h4>
-                      <p className="text-sm">Handpicked premium mustard seeds from organic farms</p>
+                      <p className="text-sm">Handpicked premium seeds from organic farms</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -133,6 +146,9 @@ const About = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Everything we do is guided by our commitment to quality, tradition, and your family's health.
             </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">To know more about farmik and your privacy do refer to our:- </p> <br />
+            <a href="/terms"  className="text-blue-600 underline">Terms & Conditions</a> <br />
+            <a href="/policies"  className="text-blue-600 underline">Farmik Policies</a>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -181,7 +197,7 @@ const About = () => {
                 <h3 className="text-2xl font-bold text-foreground mb-4">Our Mission</h3>
                 <p className="text-muted-foreground">
                   To preserve and promote traditional cold-press methods while delivering the purest, 
-                  most nutritious mustard oil to families across India. We are committed to supporting 
+                  most nutritious oil to families across India. We are committed to supporting 
                   healthy lifestyles through authentic, chemical-free products that honor our culinary heritage.
                 </p>
               </CardContent>
@@ -206,8 +222,8 @@ const About = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-6">Our Quality Promise</h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Every bottle of Farmik Oils undergoes rigorous quality testing to ensure you receive 
-            the finest cold-pressed mustard oil. We stand behind our products with a commitment 
+            Every bottle of Farmik undergoes rigorous quality testing to ensure you receive 
+            the finest cold-pressed oil. We stand behind our products with a commitment 
             to excellence that has earned the trust of thousands of families.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">

@@ -9,6 +9,9 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Loader2, Mail, Lock, User } from "lucide-react";
+import terms from "@/assets/farmik terms&conditions.pdf";
+import policy from "@/assets/farmik policy doc.pdf";
+
 
 const Auth = () => {
   const [loading, setLoading] = useState(false);
@@ -174,6 +177,7 @@ const Auth = () => {
                     placeholder="Enter your phone number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    required
                   />
                 </div>
                 
@@ -220,7 +224,7 @@ const Auth = () => {
         </CardContent>
         
         <CardFooter className="text-center text-sm text-muted-foreground">
-          By continuing, you agree to our Terms of Service and Privacy Policy
+          By continuing, you agree to our <a href="/terms" target="_blank">Terms of Service</a> and <a href="/policies" target="_blank">Privacy Policy</a>.
         </CardFooter>
       </Card>
     </div>

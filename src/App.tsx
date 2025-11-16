@@ -18,6 +18,8 @@ import Profile from "./pages/Profile";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import TermsPage from "./pages/terms";
+import Policies from "./pages/policies";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,8 @@ const App = () => (
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/admin/login" element={<AdminLogin />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/terms" element={<TermsPage />} />
+                  <Route path="/policies" element={<Policies />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

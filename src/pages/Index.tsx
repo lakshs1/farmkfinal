@@ -4,8 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Heart, Truck, Shield, Leaf, Award } from "lucide-react";
 import farmikLogo from "@/assets/farmik-oils-logo.png";
-import mustardOilProduct from "@/assets/mustard-oil-product.jpg";
-
+import mustardOilProduct from "@/assets/farmik oils.jpeg";
+import logo from "@/assets/logo.jpeg";
 const Index = () => {
   return (
     <div className="min-h-screen">
@@ -15,13 +15,13 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20 farm-hover">
-                Premium Cold-Pressed
+                Best Cold-Pressed oils
               </Badge>
               <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6 animate-float">
-                Pure <span className="text-primary">Mustard Oil</span> from Traditional Methods
+                Pure <span className="text-primary">Oils</span> from Traditional Methods
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Experience the authentic taste and health benefits of traditional cold-pressed mustard oil. 
+                Experience the authentic taste and health benefits of traditional cold-pressed oils. 
                 Rich in omega-3 fatty acids, antioxidants, and natural nutrients for your family's wellness.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -42,7 +42,7 @@ const Index = () => {
               <div className="bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl p-8 farm-hover">
                 <img 
                   src={mustardOilProduct} 
-                  alt="Premium Cold-Pressed Mustard Oil - Best Quality Healthy Oil"
+                  alt=" Cold-Pressed Mustard Oil - Best Quality Healthy Oil"
                   className="w-full h-auto max-w-md mx-auto rounded-2xl shadow-2xl farm-hover"
                 />
               </div>
@@ -56,10 +56,10 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Why Choose Farmik Oils?
+              Why Choose Farmik?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We combine traditional cold-press methods with modern quality standards to deliver the purest mustard oil.
+              We combine traditional cold-press methods with modern quality standards to deliver the purest oil.
             </p>
           </div>
           
@@ -67,12 +67,12 @@ const Index = () => {
             {[
               {
                 icon: Leaf,
-                title: "100% Natural",
+                title: "99.9% Natural",
                 description: "Pure, unrefined mustard oil with no chemicals or additives"
               },
               {
                 icon: Award,
-                title: "Premium Quality",
+                title: "best Quality",
                 description: "Traditional cold-press extraction preserves natural nutrients"
               },
               {
@@ -106,7 +106,7 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-6">
-                Health Benefits of Cold-Pressed Mustard Oil
+                Health Benefits of Cold-Pressed Oil
               </h2>
               <div className="space-y-4">
                 {[
@@ -132,7 +132,7 @@ const Index = () => {
             <div className="relative">
               <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-3xl p-8">
                 <img 
-                  src={farmikLogo} 
+                  src={logo} 
                   alt="Farmik Oils - Traditional Cold Press Methods"
                   className="w-full h-auto max-w-md mx-auto"
                 />
@@ -150,7 +150,7 @@ const Index = () => {
               What Our Customers Say
             </h2>
             <p className="text-lg text-muted-foreground">
-              Join thousands of satisfied customers who trust Farmik Oils for their family's health.
+              Join thousands of satisfied customers who trust Farmik for Oils for their family's health.
             </p>
           </div>
           
@@ -159,12 +159,12 @@ const Index = () => {
               {
                 name: "Priya Sharma",
                 location: "Delhi",
-                review: "The best mustard oil I've ever used! Pure, authentic taste and amazing quality. My family loves it."
+                review: "The best oil I've ever used! Pure, authentic taste and amazing quality. My family loves it."
               },
               {
                 name: "Rajesh Kumar",
                 location: "Mumbai",
-                review: "Farmik Oils has become our go-to choice. The cold-press method really makes a difference in taste and health benefits."
+                review: "Farmik has become our go-to choice. The cold-press method really makes a difference in taste and health benefits."
               },
               {
                 name: "Anita Singh",
@@ -190,18 +190,19 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-primary to-primary-glow">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Experience Pure, Healthy Mustard Oil?
+       <section className="py-16 bg-gradient-to-r from-primary/90 to-primary via-accent/80 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-black/40"></div>
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">
+            Ready to Experience Pure, Healthy Oil?
           </h2>
-          <p className="text-xl text-white/90 mb-8">
-            Order now and enjoy the authentic taste of traditional cold-pressed mustard oil delivered to your home.
+          <p className="text-xl text-white mb-8 drop-shadow-md">
+            Order now and enjoy the authentic taste of traditional cold-pressed oil delivered to your home.
           </p>
           <Link to="/products">
             <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
               <ShoppingCart className="mr-2 h-5 w-5" />
-              Shop Premium Oils
+              Shop Best Quality Oils
             </Button>
           </Link>
         </div>

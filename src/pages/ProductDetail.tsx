@@ -39,7 +39,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-
+  const [images, setImages] = useState<string[]>([]);
   useEffect(() => {
     if (id) {
       fetchProduct();
@@ -58,6 +58,11 @@ const ProductDetail = () => {
 
       if (error) throw error;
       setProduct(data);
+      // Parse comma-separated images
+      if (data?.image_url) {
+        const imageUrls = data.image_url.split(',').map(url => url.trim()).filter(url => url);
+        setImages(imageUrls);
+      }
     } catch (error) {
       console.error('Error fetching product:', error);
       toast({
@@ -77,7 +82,7 @@ const ProductDetail = () => {
         id: '1',
         user_name: 'Priya S.',
         rating: 5,
-        comment: 'Excellent quality mustard oil! Pure and authentic taste.',
+        comment: 'Excellent quality oil! Pure and authentic taste.',
         created_at: '2024-01-15'
       },
       {
@@ -155,13 +160,36 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className="aspect-square overflow-hidden rounded-2xl bg-muted">
+            {/* Main Image */}
+            <div className="aspect-square overflow-hidden rounded-2xl bg-muted border-2 border-primary/20">
               <img
-                src={product.image_url}
+                src={images[selectedImage] || product.image_url}
                 alt={product.name}
-                className="w-full h-full object-cover farm-hover"
+                className="w-full h-full object-cover object-center farm-hover"
               />
             </div>
+            {/* Thumbnail Grid */}
+            {images.length > 1 && (
+              <div className="grid grid-cols-4 gap-3">
+                {images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`aspect-square overflow-hidden rounded-lg border-2 transition-all farm-hover ${
+                      selectedImage === index 
+                        ? 'border-primary ring-2 ring-primary/30' 
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`${product.name} view ${index + 1}`}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
             {/* Additional images would go here */}
           </div>
 
@@ -176,8 +204,16 @@ const ProductDetail = () => {
               </h1>
               <div className="flex items-center space-x-4 mb-4">
                 <span className="text-3xl font-bold text-primary">
+                  ₹{(product.price*0.8).toFixed(2)}
+                </span>
+                <span className="text-sm text-muted-foreground line-through">
                   ₹{product.price.toFixed(2)}
                 </span>
+                <span className="text-xs font-semibold text-green-600">
+                  20% OFF
+                </span>
+              </div>
+              <div className="flex items-center space-x-2 mb-4">
                 <div className="flex items-center space-x-1">
                   {renderStars(5)}
                   <span className="text-sm text-muted-foreground ml-2">
@@ -246,7 +282,7 @@ const ProductDetail = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50">
                 <Truck className="h-5 w-5 text-primary" />
-                <span className="text-sm">Free delivery above ₹500</span>
+                <span className="text-sm">Free delivery</span>
               </div>
               <div className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50">
                 <Shield className="h-5 w-5 text-primary" />
@@ -270,7 +306,7 @@ const ProductDetail = () => {
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-4">Product Description</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    {product.description || "Our premium cold-pressed mustard oil is extracted using traditional methods that preserve all the natural nutrients and authentic flavor. Made from carefully selected mustard seeds, this oil is perfect for cooking, hair care, and massage."}
+                    {product.description || "Our cold-pressed oil is extracted using traditional methods that preserve all the natural nutrients and authentic flavor. Made from carefully selected mustard seeds, this oil is perfect for cooking, hair care, and massage."}
                   </p>
                   <Separator className="my-4" />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -278,7 +314,7 @@ const ProductDetail = () => {
                       <h4 className="font-medium mb-2">Key Features:</h4>
                       <ul className="text-sm text-muted-foreground space-y-1">
                         <li>• Cold-pressed extraction</li>
-                        <li>• 100% pure and natural</li>
+                        <li>• 99.9% pure and natural</li>
                         <li>• No chemicals or additives</li>
                         <li>• Traditional processing methods</li>
                       </ul>

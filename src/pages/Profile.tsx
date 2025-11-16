@@ -28,7 +28,27 @@ interface Order {
   status: string;
   created_at: string;
   shipping_address: string;
+  product_details:any;
 }
+
+
+async function cancelOrder(orderId) {
+  try {
+    const { data, error } = await supabase
+      .from('orders')
+      .update({ status: 'cancelled' })
+      .eq('id', orderId)
+      .in('status', ['pending', 'processing']); // Safety check
+
+    if (error) throw error;
+    alert('Order cancelled successfully!');
+  } catch (err) {
+    alert('Unable to cancel order. It may already be shipped.');
+    console.error(err);
+  }
+}
+
+
 
 const Profile = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -352,8 +372,23 @@ const Profile = () => {
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between mb-2">
                             <div>
+                              <h1 className="font-semibold text-foreground">Order details:</h1>
                               <h4 className="font-semibold text-foreground">
-                                Order #{order.id.slice(0, 8)}
+                                Order #{order.id.slice(0, 8)} <br />
+                                Order Item -
+                                {Array.isArray(order.product_details) ? (
+          <ul className="list-disc pl-4">
+            {order.product_details.map((product, index) => (
+              <li key={index}>
+                {product.name} (x{product.quantity}) – ₹{(product.price*0.8).toFixed(2)}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          "—"
+        )} <br />
+                                Deliver to -  {profile?.full_name || "Customer"} <br />
+                                Contact information - {profile?.phone || "N/A"}
                               </h4>
                               <p className="text-sm text-muted-foreground">
                                 {new Date(order.created_at).toLocaleDateString('en-IN', {
@@ -363,9 +398,24 @@ const Profile = () => {
                                 })}
                               </p>
                             </div>
+                            
                             <Badge className={getStatusColor(order.status)}>
                               {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                            </Badge>
+                              
+                            </Badge> 
+                            <Button
+  variant="destructive" // Tailwind or your UI lib styling
+  className={`px-4 py-2 rounded ${
+    (order.status === "pending" || order.status === "processing")
+      ? "bg-red-600 hover:bg-red-700 text-white"
+      : "bg-gray-400 text-gray-200 cursor-not-allowed"
+  }`}
+  disabled={!(order.status === "pending" || order.status === "processing")}
+  onClick={() => cancelOrder(order.id)}
+>
+  Cancel Order
+</Button>
+                            
                           </div>
                           <Separator className="my-2" />
                           <div className="flex justify-between items-center">
